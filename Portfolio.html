@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashwin Kumar Panda - Professional Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .tile {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            flex: 1 1 300px;
+            max-width: 300px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+        .tile:hover {
+            transform: translateY(-10px);
+        }
+        .tile i {
+            font-size: 50px;
+            margin-bottom: 10px;
+            color: #3498db;
+        }
+        .tile h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .tile p {
+            font-size: 16px;
+        }
+        @media (max-width: 600px) {
+            .tile {
+                flex: 1 1 100%;
+            }
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 900px;
+            max-height: 80%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e5e5;
+            padding-bottom: 10px;
+        }
+        .modal-header h2 {
+            margin: 0;
+            font-weight: bold;
+        }
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .modal-body {
+            padding-top: 10px;
+        }
+        .modal-body h3 {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .modal-body ul {
+            list-style: none;
+            padding: 0;
+        }
+        .modal-body li {
+            margin-bottom: 10px;
+        }
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .skill {
+            width: calc(33.33% - 20px);
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        .skill h3 {
+            margin-top: 0;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .bar {
+            height: 20px;
+            background-color: #3498db;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .bar span {
+            display: block;
+            height: 100%;
+            border-radius: 10px;
+        }
+        .bar-html { width: 90%; }
+        .bar-css { width: 85%; }
+        .bar-javascript { width: 80%; }
+        .bar-csharp { width: 85%; }
+        .bar-dotnet { width: 85%; }
+        .bar-sql { width: 80%; }
+        .bar-react { width: 75%; }
+        .bar-jquery { width: 70%; }
+        .bar-bootstrap { width: 75%; }
+        .bar-azure { width: 70%; }
+        @media (max-width: 900px) {
+            .skill {
+                width: calc(50% - 20px);
+            }
+        }
+        @media (max-width: 600px) {
+            .skill {
+                width: calc(100% - 20px);
+            }
+        }
+        .education-item {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 6px solid #3498db;
+        }
+        .education-item h3 {
+            margin-top: 0;
+        }
+        .education-item p {
+            margin-bottom: 5px;
+        }
+        .download-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: #45a049;
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .contact-item i {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+        .contact-item p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 style="text-align: center; margin: 20px 0;">Ashwin Kumar Panda</h1>
+    </header>
+    <div class="container">
+        <div class="tile" onclick="openModal('workExperienceModal')">
+            <i class="fas fa-briefcase"></i>
+            <h2>Work Experience</h2>
+            <p>Details about companies I have worked with.</p>
+        </div>
+        <div class="tile" onclick="openModal('projectDetailsModal')">
+            <i class="fas fa-tasks"></i>
+            <h2>Project Details</h2>
+            <p>Information about my projects.</p>
+        </div>
+        
+        <div class="tile" onclick="openModal('skillsModal')">
+            <i class="fas fa-tools"></i>
+            <h2>Skills</h2>
+            <p>List of my professional skills.</p>
+        </div>
+        <div class="tile" onclick="openModal('educationModal')">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Education</h2>
+            <p>Information about my educational background.</p>
+        </div>
+        <div class="tile" onclick="openModal('resumeModal')">
+            <i class="fas fa-file-alt"></i>
+            <h2>Portfolio</h2>
+            <p>Click to download Resume.</p>
+        </div>
+        <div class="tile" onclick="openModal('aboutMeModal')">
+            <i class="fas fa-user"></i>
+            <h2>About Me</h2>
+            <p>Brief introduction about myself.</p>
+        </div>
+        <div class="tile" onclick="openModal('contactModal')">
+            <i class="fas fa-envelope"></i>
+            <h2>Contact Details</h2>
+            <p>Ways to get in touch with you.</p>
+        </div>
+    </div>
+
+    <!-- The Modal for Work Experience -->
+    <div id="workExperienceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Work Experience</h2>
+                <span class="close" onclick="closeModal('workExperienceModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>𝐒𝐞𝐧𝐢𝐨𝐫 𝐒𝐨𝐟𝐭𝐰𝐚𝐫𝐞 𝐄𝐧𝐠𝐢𝐧𝐞𝐞𝐫</h3>
+                <p><strong>𝐓𝐞𝐜𝐡 𝐌𝐚𝐡𝐢𝐧𝐝𝐫𝐚 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟒/𝟐𝟎𝟐𝟐 – 𝐓𝐢𝐥𝐥 𝐃𝐚𝐭𝐞, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li>Involved in requirement analysis and application designing sessions with business analysts and team members to outline the proposed IT solution.</li>
+                    <li>Advanced experience in developing Web and Client/Server Applications based on Microsoft .NET Technologies and expertise in implementing N-Tier Architecture.</li>
+                    <li>Experience in implementing Securities like Authentication and Authorization using Azure authentication, Authorizing Users, Roles, and User Account Impersonation.</li>
+                    <li>Experience in setting up TFS Team Projects.</li>
+                    <li>Working experience in website and web application development using C#, ASP.Net, MVC, Asp.Net Core Web Api, ADO.Net, SQL, jQuery, JavaScript, HTML, CSS.</li>
+                    <li>Database design and development (Microsoft SQL Server).</li>
+                </ul>
+                
+                <h3>𝐒𝐞𝐧𝐢𝐨𝐫 𝐒𝐨𝐟𝐭𝐰𝐚𝐫𝐞 𝐄𝐧𝐠𝐢𝐧𝐞𝐞𝐫</h3>
+                <p><strong>𝐂𝐒𝐌 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐢𝐞𝐬 𝐏𝐯𝐭 𝐋𝐭𝐝.</strong></p>
+                <p>𝟏𝟏/𝟐𝟎𝟏𝟗 – 𝟎𝟒/𝟐𝟎𝟐𝟐, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li>Involved in requirement analysis and application designing sessions with business analysts and team members to outline the proposed IT solution.</li>
+                    <li>Advanced experience in developing Web and Client/Server Applications based on Microsoft .NET Technologies and expertise in implementing N-Tier Architecture.</li>
+                    <li>Experience in implementing Securities like Authentication and Authorization using Form-based Window-based authentication, Authorizing Users, Roles, and User Account Impersonation.</li>
+                    <li>Experience in setting up TFS Team Projects.</li>
+                    <li>Working experience in website and web application development using C#, ASP.Net Core, MVC 5, Web Api, ADO.Net, SQL, jQuery, JavaScript, HTML, CSS.</li>
+                    <li>Performed unit testing and functional testing. Fixed the issues occurred during testing process.</li>
+                    <li>Database design and development (Microsoft SQL Server).</li>
+                </ul>
+                
+                <h3>𝐒𝐞𝐧𝐢𝐨𝐫 𝐒𝐨𝐟𝐭𝐰𝐚𝐫𝐞 𝐏𝐫𝐨𝐠𝐫𝐚𝐦𝐦𝐞𝐫</h3>
+                <p><strong>𝐒𝐈𝐒𝐋 𝐈𝐧𝐟𝐨𝐭𝐞𝐜𝐡 𝐏𝐯𝐭 𝐋𝐭𝐝. (𝐂𝐥𝐢𝐞𝐧𝐭: 𝐍𝐈𝐂, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫)</strong></p>
+                <p>𝟎𝟒/𝟐𝟎𝟏𝟖 - 𝟏𝟏/𝟐𝟎𝟏𝟗, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li>Involved in interface design of web application from design to implementation.</li>
+                    <li>Interaction with Business Analysts, Client team, and Development team.</li>
+                    <li>Designing, developing application using MVC with Razor, Ajax, jQuery, C#, HTML5, Web Api.</li>
+                    <li>Experience in implementing Securities like Authentication and Authorization using Form-based Window-based authentication, Authorizing Users, Roles, and User Account Impersonation.</li>
+                    <li>Performed unit testing and functional testing. Fixed the issues occurred during testing process.</li>
+                    <li>Involved in production build. Deployed code on live servers.</li>
+                    <li>Created complex stored procedures and user defined functions in SQL server database.</li>
+                    <li>Worked in Education Domain.</li>
+                    <li>Database design and development (Microsoft SQL Server).</li>
+                </ul>
+
+                <h3>𝐒𝐨𝐟𝐭𝐰𝐚𝐫𝐞 𝐄𝐧𝐠𝐢𝐧𝐞𝐞𝐫</h3>
+                <p><strong>𝐂𝐫𝐞𝐚𝐭𝐢𝐯𝐞 𝐓𝐞𝐫𝐚𝐛𝐢𝐭𝐞 𝐒𝐨𝐥𝐮𝐭𝐢𝐨𝐧 𝐏𝐯𝐭. 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟐/𝟐𝟎𝟏𝟔 - 𝟎𝟑/𝟐𝟎𝟏𝟖, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li>Involved in interface design of web application from design to implementation.</li>
+                    <li>Interaction with Client.</li>
+                    <li>Designing, developing application using Ajax, jQuery, C#.</li>
+                    <li>Performed unit testing and functional testing. Fixed the issues occurred during testing process.</li>
+                    <li>Worked in Education Domain.</li>
+                    <li>Database design and development (Microsoft SQL Server).</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Modal for Project Details -->
+    <div id="projectDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Project Details</h2>
+                <span class="close" onclick="closeModal('projectDetailsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h3>𝐎𝐧 𝐃𝐞𝐦𝐚𝐧𝐝 𝐒𝐲𝐬𝐭𝐞𝐦 𝐄𝐧𝐡𝐚𝐧𝐜𝐞𝐦𝐞𝐧𝐭 (𝐎𝐃𝐒𝐞)</h3>
+                <p><strong>𝐓𝐞𝐜𝐡 𝐌𝐚𝐡𝐢𝐧𝐝𝐫𝐚 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟑/𝟐𝟎𝟐𝟒 – 𝐓𝐢𝐥𝐥 𝐃𝐚𝐭𝐞, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐎𝐃𝐒𝐞 𝐂𝐥𝐢𝐞𝐧𝐭 𝐢𝐬 𝐚𝐧 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐰𝐡𝐢𝐜𝐡 𝐬𝐮𝐩𝐩𝐨𝐫𝐭𝐬 𝐔𝐏𝐒 𝐜𝐞𝐧𝐭𝐞𝐫 𝐭𝐞𝐚𝐦 𝐯𝐢𝐬𝐢𝐛𝐢𝐥𝐢𝐭𝐲 𝐫𝐞𝐥𝐚𝐭𝐢𝐯𝐞 𝐭𝐨 𝐎𝐧 𝐑𝐨𝐚𝐝 𝐝𝐫𝐢𝐯𝐞𝐫 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐢𝐞𝐬. 𝐓𝐡𝐞 𝐩𝐫𝐨𝐝𝐮𝐜𝐭 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 𝐚 𝐟𝐫𝐨𝐧𝐭𝐞𝐧𝐝 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐝𝐢𝐬𝐭𝐫𝐢𝐛𝐮𝐭𝐞𝐝 𝐭𝐨 𝐔𝐏𝐒 𝐩𝐚𝐜𝐤𝐚𝐠𝐞 𝐜𝐞𝐧𝐭𝐞𝐫 𝐏𝐂𝐬 𝐚𝐥𝐨𝐧𝐠 𝐰𝐢𝐭𝐡 𝐛𝐚𝐜𝐤𝐞𝐧𝐝 𝐬𝐞𝐫𝐯𝐢𝐜𝐞𝐬 (𝐐𝐮𝐞𝐫𝐲 𝐒𝐞𝐫𝐯𝐢𝐜𝐞, 𝐃𝐚𝐭𝐚 𝐅𝐞𝐞𝐝 𝐒𝐞𝐫𝐯𝐢𝐜𝐞) 𝐚𝐧𝐝 𝐬𝐞𝐯𝐞𝐫𝐚𝐥 𝐒𝐐𝐋 𝐒𝐞𝐫𝐯𝐞𝐫 𝐒𝐭𝐨𝐫𝐞𝐝 𝐏𝐫𝐨𝐜𝐞𝐝𝐮𝐫𝐞𝐬 𝐭𝐨 𝐦𝐚𝐧𝐚𝐠𝐞 𝐭𝐡𝐞 𝐝𝐚𝐭𝐚 𝐜𝐨𝐦𝐦𝐮𝐧𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬 𝐛𝐞𝐭𝐰𝐞𝐞𝐧 𝐭𝐡𝐞 𝐓𝐈𝐌𝐌 𝐢𝐧𝐟𝐫𝐚𝐬𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞 𝐚𝐧𝐝 𝐭𝐡𝐞 𝐌𝐃𝐀 (𝐃𝐈𝐀𝐃) 𝐝𝐞𝐯𝐢𝐜𝐞𝐬. 𝐈𝐭 𝐢𝐬 𝐚 𝐦𝐮𝐥𝐭𝐢𝐥𝐢𝐧𝐠𝐮𝐚𝐥 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧. 𝐂𝐮𝐫𝐫𝐞𝐧𝐭𝐥𝐲 𝐬𝐮𝐩𝐩𝐨𝐫𝐭𝐬 𝟔 𝐥𝐚𝐧𝐠𝐮𝐚𝐠𝐞𝐬 (𝐃𝐞𝐮𝐭𝐬𝐜𝐡, 𝐄𝐧𝐠𝐥𝐢𝐬𝐡, 𝐄𝐬𝐩𝐚ñ𝐨𝐥𝐚, 𝐅𝐫𝐚𝐧ç𝐨𝐢𝐬, 𝐅𝐫𝐚𝐧ç𝐚𝐢𝐬 (𝐂𝐚𝐧𝐚𝐝𝐚), 𝐈𝐭𝐚𝐥𝐢𝐚𝐧𝐨). 𝐔𝐬𝐞𝐝 𝐛𝐲 𝐭𝐡𝐞 𝐔𝐏𝐒 𝐜𝐞𝐧𝐭𝐞𝐫 𝐟𝐨𝐫 𝐦𝐚𝐧𝐚𝐠𝐢𝐧𝐠 𝐭𝐡𝐞 𝐝𝐚𝐲-𝐭𝐨-𝐝𝐚𝐲 𝐩𝐚𝐜𝐤𝐚𝐠𝐞 𝐝𝐞𝐥𝐢𝐯𝐞𝐫𝐲/𝐏𝐢𝐜𝐤𝐮𝐩 𝐭𝐚𝐬𝐤 𝐎𝐧 𝐑𝐨𝐚𝐝 𝐝𝐫𝐢𝐯𝐞𝐫 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐢𝐞𝐬.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐀𝐬𝐩.𝐍𝐞𝐭 𝐂𝐨𝐫𝐞 𝐰𝐞𝐛 𝐚𝐩𝐢, 𝐌𝐒𝐒𝐐𝐋, 𝐀𝐳𝐮𝐫𝐞 𝐀𝐮𝐭𝐡𝐞𝐧𝐭𝐢𝐜𝐚𝐭𝐢𝐨𝐧, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐑𝐞𝐚𝐜𝐭 𝐉𝐬.</li>
+                </ul>
+
+                <h3>𝐁𝐫𝐨𝐤𝐞𝐫𝐚𝐠𝐞 𝐀𝐜𝐜𝐨𝐮𝐧𝐭𝐢𝐧𝐠</h3>
+                <p><strong>𝐓𝐞𝐜𝐡 𝐌𝐚𝐡𝐢𝐧𝐝𝐫𝐚 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟔/𝟐𝟎𝟐𝟐 – 𝟎𝟐/𝟐𝟎𝟐𝟒, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐓𝐡𝐢𝐬 𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐢𝐬 𝐚 𝐫𝐞𝐜𝐨𝐫𝐝 𝐤𝐞𝐞𝐩𝐢𝐧𝐠 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐨𝐟 𝐚𝐥𝐥 𝐝𝐚𝐢𝐥𝐲 𝐭𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧𝐬 𝐫𝐞𝐥𝐚𝐭𝐞𝐝
+                        𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐨𝐧 𝐆𝐨𝐨𝐝𝐬 𝐚𝐧𝐝 𝐒𝐞𝐫𝐯𝐢𝐜𝐞. 𝐓𝐡𝐢𝐬 𝐩𝐫𝐨𝐣𝐞𝐜𝐭 𝐰𝐚𝐬 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐝 𝐟𝐨𝐫 𝐨𝐧𝐞 𝐨𝐟 𝐔𝐒 𝐜𝐥𝐢𝐞𝐧𝐭. 𝐈𝐭 𝐢𝐬 𝐚𝐧 𝐨𝐰𝐧 𝐢𝐧𝐭𝐞𝐫𝐧𝐚𝐥 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐟𝐨𝐫 𝐤𝐞𝐞𝐩𝐢𝐧𝐠 𝐫𝐞𝐜𝐨𝐫𝐝 𝐨𝐟 𝐚𝐥𝐥 𝐬𝐮𝐩𝐩𝐥𝐲 𝐜𝐡𝐚𝐢𝐧 𝐦𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐚𝐧𝐝 𝐭𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧 𝐫𝐞𝐥𝐚𝐭𝐞𝐝 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐭𝐨 𝐡𝐞𝐥𝐩 𝐚𝐜𝐜𝐨𝐮𝐧𝐭𝐢𝐧𝐠 𝐫𝐞𝐩𝐫𝐞𝐬𝐞𝐧𝐭𝐚𝐭𝐢𝐯𝐞𝐬 𝐢𝐧 𝐚𝐥𝐥 𝐝𝐞𝐩𝐚𝐫𝐭𝐦𝐞𝐧𝐭𝐬 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐚 𝐜𝐞𝐧𝐭𝐫𝐚𝐥𝐢𝐳𝐞𝐝 𝐥𝐨𝐜𝐚𝐭𝐢𝐨𝐧 𝐭𝐨 𝐟𝐢𝐧𝐝 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧. 𝐓𝐡𝐢𝐬 𝐰𝐢𝐥𝐥 𝐡𝐞𝐥𝐩 𝐰𝐢𝐭𝐡 𝐧𝐨𝐭 𝐨𝐧𝐥𝐲 𝐜𝐨𝐧𝐬𝐢𝐬𝐭𝐞𝐧𝐜𝐲 𝐚𝐧𝐝 𝐚𝐜𝐜𝐮𝐫𝐚𝐜𝐲 𝐭𝐡𝐫𝐨𝐮𝐠𝐡𝐨𝐮𝐭 𝐭𝐡𝐞 𝐯𝐚𝐫𝐢𝐨𝐮𝐬 𝐚𝐫𝐞𝐚𝐬 𝐰𝐢𝐭𝐡𝐢𝐧 𝐚𝐜𝐜𝐨𝐮𝐧𝐭𝐢𝐧𝐠 𝐛𝐮𝐭 𝐚𝐥𝐬𝐨 𝐩𝐫𝐨𝐯𝐢𝐝𝐞 𝐞𝐚𝐬𝐞 𝐨𝐟 𝐠𝐨𝐢𝐧𝐠 𝐭𝐨 𝐨𝐧𝐞 𝐥𝐨𝐜𝐚𝐭𝐢𝐨𝐧 𝐭𝐨 𝐟𝐢𝐧𝐝 𝐥𝐢𝐧𝐤𝐬 𝐭𝐨 𝐡𝐞𝐥𝐩 𝐰𝐢𝐭𝐡 𝐲𝐨𝐮𝐫 𝐝𝐚𝐢𝐥𝐲 𝐫𝐞𝐬𝐩𝐨𝐧𝐬𝐢𝐛𝐢𝐥𝐢𝐭𝐢𝐞𝐬. 𝐈𝐧 𝐭𝐡𝐢𝐬 𝐩𝐫𝐨𝐣𝐞𝐜𝐭 𝐬𝐞𝐯𝐞𝐫𝐚𝐥 𝐦𝐨𝐝𝐮𝐥𝐞𝐬 𝐚𝐫𝐞 𝐮𝐬𝐞𝐝 𝐋𝐢𝐤𝐞 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐩𝐚𝐲𝐚𝐛𝐥𝐞, 𝐀𝐜𝐜𝐨𝐮𝐧𝐭 𝐫𝐞𝐜𝐞𝐢𝐯𝐚𝐛𝐥𝐞. 𝐁𝐢𝐥𝐥𝐢𝐧𝐠, 𝐂𝐨𝐥𝐥𝐞𝐜𝐭𝐢𝐨𝐧𝐬, 𝐁𝐫𝐨𝐛𝐢𝐥𝐥, 𝐄𝐓𝐁𝐒 𝐞𝐭𝐜. 𝐄𝐚𝐜𝐡 𝐞𝐦𝐩𝐥𝐨𝐲𝐞𝐞 𝐰𝐢𝐥𝐥 𝐡𝐚𝐯𝐞 𝐚𝐜𝐜𝐞𝐬𝐬 𝐭𝐨 𝐥𝐨𝐠𝐢𝐧 𝐭𝐨 𝐭𝐡𝐞 𝐰𝐞𝐛𝐬𝐢𝐭𝐞. 𝐀𝐜𝐜𝐨𝐮𝐧𝐭𝐢𝐧𝐠 𝐫𝐞𝐩𝐫𝐞𝐬𝐞𝐧𝐭𝐚𝐭𝐢𝐯𝐞𝐬 𝐰𝐢𝐥𝐥 𝐧𝐨𝐭 𝐡𝐚𝐯𝐞 𝐭𝐨 𝐥𝐨𝐠 𝐨𝐧𝐭𝐨 𝐭𝐡𝐞 𝐰𝐞𝐛𝐬𝐢𝐭𝐞 𝐭𝐨 𝐯𝐢𝐞𝐰 𝐭𝐡𝐞 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐀𝐬𝐩.𝐍𝐞𝐭 𝐌𝐯𝐜 𝟓, 𝐌𝐒𝐒𝐐𝐋, 𝐀𝐳𝐮𝐫𝐞 𝐀𝐮𝐭𝐡𝐞𝐧𝐭𝐢𝐜𝐚𝐭𝐢𝐨𝐧, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐀𝐣𝐚𝐱.</li>
+                </ul>
+
+                <h3>𝐈𝐧𝐭𝐞𝐠𝐫𝐚𝐭𝐞𝐝 𝐌𝐢𝐧𝐞𝐬 𝐚𝐧𝐝 𝐌𝐢𝐧𝐞𝐫𝐚𝐥𝐬 𝐌𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐒𝐲𝐬𝐭𝐞𝐦 (𝐈𝟑𝐌𝐒)</h3>
+                <p><strong>𝐂𝐒𝐌 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐢𝐞𝐬 𝐏𝐯𝐭 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟓/𝟐𝟎𝟐𝟏 – 𝟎𝟒/𝟐𝟎𝟐𝟐, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐓𝐡𝐞 𝐠𝐨𝐚𝐥 𝐰𝐚𝐬 𝐭𝐨 𝐡𝐚𝐯𝐞 𝐚𝐧 𝐄𝐑𝐏 𝐬𝐲𝐬𝐭𝐞𝐦 𝐟𝐨𝐫 𝐆𝐨𝐯𝐞𝐫𝐧𝐦𝐞𝐧𝐭 𝐰𝐡𝐞𝐫𝐞 𝐢𝐧 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐚𝐬𝐬𝐨𝐜𝐢𝐚𝐭𝐞𝐝 𝐆𝐨𝐯𝐞𝐫𝐧𝐦𝐞𝐧𝐭 𝐃𝐞𝐩𝐚𝐫𝐭𝐦𝐞𝐧𝐭𝐬 /𝐀𝐠𝐞𝐧𝐜𝐢𝐞𝐬 𝐰𝐢𝐥𝐥 𝐡𝐚𝐯𝐞 𝐚 𝐬𝐢𝐧𝐠𝐥𝐞 𝐚𝐜𝐜𝐞𝐬𝐬 𝐭𝐨 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐩𝐞𝐫𝐭𝐚𝐢𝐧𝐢𝐧𝐠 𝐭𝐨 𝐦𝐢𝐧𝐢𝐧𝐠 𝐢𝐧 𝐭𝐡𝐞 𝐒𝐭𝐚𝐭𝐞 𝐨𝐟 𝐎𝐝𝐢𝐬𝐡𝐚. 𝐒𝐢𝐧𝐜𝐞 𝐭𝐡𝐞 𝐝𝐞𝐦𝐚𝐧𝐝 𝐰𝐚𝐬 𝐭𝐨 𝐭𝐢𝐠𝐡𝐭𝐥𝐲 𝐦𝐨𝐧𝐢𝐭𝐨𝐫 𝐬𝐨 𝐚𝐬 𝐭𝐨 𝐩𝐫𝐞𝐯𝐞𝐧𝐭 𝐢𝐥𝐥𝐞𝐠𝐚𝐥 𝐦𝐢𝐧𝐢𝐧𝐠, 𝐦𝐚𝐧𝐲 𝐬𝐭𝐚𝐭𝐮𝐭𝐨𝐫𝐲 𝐚𝐧𝐝 𝐧𝐨𝐧-𝐬𝐭𝐚𝐭𝐮𝐭𝐨𝐫𝐲 𝐜𝐡𝐞𝐜𝐤𝐬 𝐰𝐞𝐫𝐞 𝐫𝐞𝐪𝐮𝐢𝐫𝐞𝐝 𝐭𝐨 𝐛𝐞 𝐝𝐨𝐧𝐞 𝐛𝐲 𝐭𝐡𝐞 𝐮𝐬𝐚𝐠𝐞𝐬 𝐨𝐟 𝐈𝐓. 𝐓𝐡𝐢𝐬 𝐰𝐨𝐮𝐥𝐝 𝐡𝐞𝐥𝐩 𝐭𝐡𝐞 𝐝𝐞𝐜𝐢𝐬𝐢𝐨𝐧 𝐦𝐚𝐤𝐢𝐧𝐠 𝐚𝐭 𝐭𝐡𝐞 𝐡𝐢𝐠𝐡𝐞𝐬𝐭 𝐥𝐞𝐯𝐞𝐥 𝐭𝐨 𝐟𝐨𝐫𝐦𝐮𝐥𝐚𝐭𝐞 𝐫𝐞𝐪𝐮𝐢𝐫𝐞𝐝 𝐩𝐨𝐥𝐢𝐜𝐢𝐞𝐬 𝐭𝐨 𝐜𝐮𝐫𝐛 𝐩𝐢𝐥𝐟𝐞𝐫𝐚𝐠𝐞𝐬. 𝐎𝐧𝐞 𝐨𝐟 𝐭𝐡𝐞 𝐯𝐢𝐭𝐚𝐥 𝐭𝐫𝐚𝐧𝐬𝐚𝐜𝐭𝐢𝐨𝐧𝐬 𝐚𝐭 𝐆𝐨𝐯𝐞𝐫𝐧𝐦𝐞𝐧𝐭 𝐢𝐬 𝐭𝐡𝐞 𝐢𝐬𝐬𝐮𝐚𝐧𝐜𝐞 𝐨𝐟 𝐭𝐡𝐞 𝐓𝐫𝐚𝐧𝐬𝐢𝐭 𝐏𝐞𝐫𝐦𝐢𝐭 & 𝐏𝐚𝐬𝐬. 𝐓𝐡𝐢𝐬 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐲 𝐢𝐬 𝐜𝐨𝐧𝐧𝐞𝐜𝐭𝐞𝐝 𝐭𝐨 𝐭𝐡𝐞 𝐚𝐦𝐨𝐮𝐧𝐭 𝐩𝐫𝐨𝐝𝐮𝐜𝐞𝐝, 𝐝𝐢𝐬𝐩𝐚𝐭𝐜𝐡𝐞𝐝 𝐚𝐧𝐝 𝐬𝐭𝐚𝐜𝐤𝐞𝐝. 𝐅𝐮𝐫𝐭𝐡𝐞𝐫 𝐰𝐢𝐭𝐡 𝐦𝐚𝐧𝐲 𝐥𝐚𝐰𝐬 𝐠𝐨𝐯𝐞𝐫𝐧𝐢𝐧𝐠 𝐦𝐮𝐥𝐭𝐢𝐩𝐥𝐞 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐢𝐞𝐬 𝐭𝐡𝐞 𝐜𝐡𝐚𝐧𝐜𝐞𝐬 𝐨𝐟 𝐜𝐨𝐦𝐦𝐢𝐭𝐭𝐢𝐧𝐠 𝐦𝐢𝐬𝐭𝐚𝐤𝐞 𝐛𝐲 𝐭𝐡𝐞 𝐆𝐨𝐯𝐭. 𝐨𝐟𝐟𝐢𝐜𝐞𝐫𝐬 𝐚𝐫𝐞 𝐡𝐢𝐠𝐡, 𝐡𝐞𝐧𝐜𝐞 𝐞-𝐩𝐞𝐫𝐦𝐢𝐭 𝐚𝐧𝐝 𝐏𝐚𝐬𝐬 𝐧𝐞𝐞𝐝 𝐭𝐨 𝐛𝐞 𝐢𝐬𝐬𝐮𝐞𝐝 𝐮𝐧𝐝𝐞𝐫 𝐭𝐢𝐠𝐡𝐭 𝐠𝐮𝐢𝐝𝐚𝐧𝐜𝐞 𝐚𝐧𝐝 𝐦𝐮𝐬𝐭 𝐛𝐞 𝐢𝐧𝐭𝐞𝐫𝐜𝐨𝐧𝐧𝐞𝐜𝐭𝐞𝐝 𝐰𝐢𝐭𝐡 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐫𝐞𝐩𝐨𝐫𝐭𝐬 & 𝐫𝐞𝐭𝐮𝐫𝐧𝐬 𝐜𝐨𝐦𝐩𝐥𝐲𝐢𝐧𝐠 𝐭𝐡𝐞 𝐥𝐚𝐰𝐬 𝐥𝐚𝐢𝐝 𝐝𝐨𝐰𝐧 𝐛𝐲 𝐭𝐡𝐞 𝐂𝐞𝐧𝐭𝐫𝐚𝐥 & 𝐒𝐭𝐚𝐭𝐞 𝐆𝐨𝐯𝐭. 𝐂𝐨𝐧𝐬𝐢𝐝𝐞𝐫𝐢𝐧𝐠 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐚𝐬𝐩𝐞𝐜𝐭𝐬, 𝐒𝐭𝐞𝐞𝐥 & 𝐌𝐢𝐧𝐞𝐬 𝐃𝐞𝐩𝐚𝐫𝐭𝐦𝐞𝐧𝐭, 𝐆𝐨𝐯𝐞𝐫𝐧𝐦𝐞𝐧𝐭 𝐨𝐟 𝐎𝐝𝐢𝐬𝐡𝐚 𝐡𝐚𝐬 𝐢𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭𝐞𝐝 𝐭𝐡𝐞 𝐈𝐓 𝐁𝐚𝐬𝐞𝐝 𝐦𝐢𝐧𝐞𝐫𝐚𝐥 𝐚𝐝𝐦𝐢𝐧𝐢𝐬𝐭𝐫𝐚𝐭𝐢𝐨𝐧 𝐭𝐡𝐫𝐨𝐮𝐠𝐡 𝐚 𝐫𝐨𝐛𝐮𝐬𝐭 𝐬𝐨𝐟𝐭𝐰𝐚𝐫𝐞 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐧𝐚𝐦𝐞𝐝 𝐈𝐧𝐭𝐞𝐠𝐫𝐚𝐭𝐞𝐝 𝐌𝐢𝐧𝐞𝐬 𝐚𝐧𝐝 𝐌𝐢𝐧𝐞𝐫𝐚𝐥 𝐌𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐒𝐲𝐬𝐭𝐞𝐦 𝐨𝐫 "𝐢𝟑𝐌𝐒". 𝐈 𝐚𝐦 𝐰𝐨𝐫𝐤𝐢𝐧𝐠 𝐨𝐟 𝐒𝐚𝐦𝐩𝐥𝐢𝐧𝐠 𝐦𝐨𝐝𝐮𝐥𝐞 𝐨𝐟 𝐢𝟑𝐦𝐬 𝐀𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐂#.𝐍𝐞𝐭, 𝐀𝐬𝐩.𝐧𝐞𝐭, 𝐀𝐬𝐩.𝐍𝐞𝐭 𝐌𝐯𝐜 𝟓, 𝐌𝐒𝐒𝐐𝐋, 𝐖𝐞𝐛 𝐀𝐩𝐢, .𝐍𝐞𝐭 𝐂𝐨𝐫𝐞.</li>
+                </ul>
+
+                <h3>𝐞𝐏𝐫𝐚𝐯𝐞𝐬𝐡, 𝐎𝐝𝐢𝐬𝐡𝐚</h3>
+                <p><strong>𝐂𝐒𝐌 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐢𝐞𝐬 𝐏𝐯𝐭 𝐋𝐭𝐝.</strong></p>
+                <p>𝟏𝟏/𝟐𝟎𝟏𝟗 - 𝟎𝟓/𝟐𝟎𝟐𝟏, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐞𝐏𝐫𝐚𝐯𝐞𝐬𝐡 𝐢𝐬 𝐚𝐧 𝐞𝐥𝐞𝐜𝐭𝐫𝐨𝐧𝐢𝐜 𝐩𝐚𝐬𝐬 𝐦𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐬𝐲𝐬𝐭𝐞𝐦 𝐢𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭𝐢𝐧𝐠 𝐢𝐧 𝐒𝐞𝐜𝐫𝐞𝐭𝐚𝐫𝐢𝐚𝐭. 𝐈𝐧 𝐭𝐡𝐢𝐬 𝐬𝐲𝐬𝐭𝐞𝐦, 𝐭𝐡𝐞 𝐀𝐩𝐩𝐥𝐢𝐜𝐚𝐧𝐭 𝐰𝐡𝐨 𝐰𝐚𝐧𝐭 𝐚 𝐩𝐚𝐬𝐬 𝐟𝐨𝐫 𝐞𝐧𝐭𝐞𝐫 𝐭𝐨 𝐒𝐞𝐜𝐫𝐞𝐭𝐚𝐫𝐢𝐚𝐭 𝐡𝐚𝐯𝐞 𝐭𝐨 𝐚𝐩𝐩𝐥𝐲 𝐟𝐨𝐫 𝐚 𝐩𝐚𝐬𝐬 𝐰𝐡𝐢𝐜𝐡 𝐢𝐬 𝐟𝐮𝐫𝐭𝐡𝐞𝐫 𝐚𝐩𝐩𝐫𝐨𝐯𝐞𝐝 𝐛𝐲 𝐝𝐞𝐟𝐢𝐧𝐞𝐝 𝐀𝐮𝐭𝐡𝐨𝐫𝐢𝐭𝐲. 𝐓𝐡𝐞𝐧 𝐚𝐥𝐥𝐨𝐰 𝐡𝐢𝐦 𝐭𝐨 𝐞𝐧𝐭𝐞𝐫 𝐮𝐬𝐢𝐧𝐠 𝐞𝐩𝐚𝐬𝐬. 𝐅𝐚𝐜𝐞 𝐫𝐞𝐜𝐨𝐠𝐧𝐢𝐭𝐢𝐨𝐧 𝐭𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐲 𝐢𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭 𝐨𝐧 𝐭𝐡𝐢𝐬 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧. 𝐈𝐭 𝐚𝐯𝐚𝐢𝐥𝐚𝐛𝐥𝐞 𝐢𝐧 𝐛𝐨𝐭𝐡 𝐦𝐨𝐛𝐢𝐥𝐞 𝐚𝐩𝐩 𝐚𝐧𝐝 𝐰𝐞𝐛 𝐚𝐩𝐩.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐂#.𝐍𝐞𝐭, 𝐀𝐬𝐩.𝐧𝐞𝐭, 𝐀𝐬𝐩.𝐍𝐞𝐭 𝐌𝐯𝐜, 𝐌𝐒𝐒𝐐𝐋, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐖𝐞𝐛 𝐀𝐩𝐢.</li>
+                </ul>
+
+                <h3>𝐏𝐫𝐢𝐯𝐚𝐭𝐞 𝐒𝐜𝐡𝐨𝐨𝐥 𝐌𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐏𝐨𝐫𝐭𝐚𝐥</h3>
+                <p><strong>𝐒𝐈𝐒𝐋 𝐈𝐧𝐟𝐨𝐭𝐞𝐜𝐡 𝐏𝐯𝐭. 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟖/𝟐𝟎𝟏𝟖 - 𝟏𝟏/𝟐𝟎𝟏𝟗, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐏𝐒𝐌𝐏 𝐛𝐚𝐬𝐢𝐜𝐚𝐥𝐥𝐲 𝐝𝐞𝐯𝐞𝐥𝐨𝐩 𝐟𝐨𝐫 𝐒𝐜𝐡𝐨𝐨𝐥 𝐀𝐟𝐟𝐢𝐥𝐢𝐚𝐭𝐢𝐨𝐧 𝐬𝐲𝐬𝐭𝐞𝐦, 𝐢𝐭 𝐢𝐬 𝐚 𝐰𝐞𝐛-𝐛𝐚𝐬𝐞𝐝 𝐬𝐲𝐬𝐭𝐞𝐦 𝐭𝐡𝐚𝐭 𝐟𝐚𝐜𝐢𝐥𝐢𝐭𝐢𝐞𝐬 𝐦𝐚𝐧𝐚𝐠𝐢𝐧𝐠 𝐭𝐡𝐞 𝐨𝐯𝐞𝐫𝐚𝐥𝐥 𝐫𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐭𝐢𝐨𝐧 𝐚𝐧𝐝 𝐚𝐟𝐟𝐢𝐥𝐢𝐚𝐭𝐢𝐨𝐧 𝐩𝐫𝐨𝐜𝐞𝐬𝐬, 𝐢𝐭 𝐢𝐧𝐭𝐞𝐠𝐫𝐚𝐭𝐞𝐬 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐢𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐫𝐞𝐠𝐚𝐫𝐝𝐢𝐧𝐠 𝐂𝐞𝐫𝐭𝐢𝐟𝐢𝐜𝐚𝐭𝐞 𝐨𝐟 𝐑𝐞𝐜𝐨𝐠𝐧𝐢𝐭𝐢𝐨𝐧, 𝐍𝐨 𝐎𝐛𝐣𝐞𝐜𝐭𝐢𝐨𝐧 𝐂𝐞𝐫𝐭𝐢𝐟𝐢𝐜𝐚𝐭𝐞, 𝐍𝐞𝐰 𝐒𝐜𝐡𝐨𝐨𝐥 𝐏𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧. 𝐎𝐧 𝐭𝐡𝐢𝐬 𝐩𝐫𝐨𝐜𝐞𝐬𝐬 𝐰𝐡𝐞𝐧 𝐚 𝐧𝐞𝐰 𝐬𝐜𝐡𝐨𝐨𝐥 𝐰𝐚𝐧𝐭 𝐭𝐨 𝐛𝐮𝐢𝐥𝐝, 𝐢𝐭 𝐡𝐚𝐬 𝐭𝐨 𝐭𝐚𝐤𝐞 𝐭𝐡𝐞 𝐩𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧 𝐟𝐫𝐨𝐦 𝐆𝐨𝐯𝐭. 𝐨𝐟 𝐎𝐝𝐢𝐬𝐡𝐚 𝐭𝐡𝐫𝐨𝐮𝐠𝐡 𝐎𝐏𝐄𝐏𝐀. 𝐅𝐨𝐫 𝐢𝐭 𝐡𝐚𝐬 𝐭𝐨 𝐫𝐞𝐠𝐢𝐬𝐭𝐞𝐫 𝐢𝐧 𝐭𝐡𝐢𝐬 𝐏𝐒𝐌𝐏 𝐩𝐨𝐫𝐭𝐚𝐥 𝐟𝐨𝐫 𝐩𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧. 𝐀𝐟𝐭𝐞𝐫 𝐑𝐞𝐠𝐢𝐬𝐭𝐫𝐚𝐭𝐢𝐨𝐧 𝐭𝐡𝐞 𝐬𝐜𝐡𝐨𝐨𝐥 𝐡𝐚𝐬 𝐭𝐨 𝐯𝐞𝐫𝐢𝐟𝐢𝐞𝐝 𝐛𝐲 𝐭𝐡𝐞 𝐝𝐢𝐬𝐭𝐫𝐢𝐜𝐭 𝐞𝐝𝐮𝐜𝐚𝐭𝐢𝐨𝐧 𝐨𝐟𝐟𝐢𝐜𝐞𝐫 (𝐃𝐄𝐎), 𝐀𝐧𝐝 𝐬𝐞𝐧𝐝 𝐢𝐭 𝐟𝐨𝐫 𝐀𝐩𝐩𝐫𝐨𝐯𝐚𝐥 𝐨𝐟 𝐞𝐥𝐞𝐦𝐞𝐧𝐭𝐚𝐫𝐲, 𝐨𝐫 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 𝐝𝐢𝐫𝐞𝐜𝐭𝐨𝐫 𝐟𝐨𝐫 𝐏𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧. 𝐀𝐟𝐭𝐞𝐫 𝐩𝐞𝐫𝐦𝐢𝐬𝐬𝐢𝐨𝐧, 𝐂𝐎𝐑 𝐚𝐧𝐝 𝐍𝐎𝐂 𝐩𝐫𝐨𝐜𝐞𝐬𝐬 𝐰𝐢𝐥𝐥 𝐛𝐞 𝐜𝐨𝐧𝐭𝐢𝐧𝐮𝐞𝐝. 𝐃𝐢𝐬𝐭𝐫𝐢𝐜𝐭 𝐰𝐢𝐬𝐞 𝐒𝐜𝐡𝐨𝐨𝐥 𝐚𝐩𝐩𝐥𝐢𝐞𝐝 𝐥𝐢𝐬𝐭, 𝐀𝐩𝐩𝐫𝐨𝐯𝐚𝐥 𝐥𝐢𝐬𝐭 𝐚𝐧𝐝 𝐨𝐭𝐡𝐞𝐫 𝐫𝐞𝐩𝐨𝐫𝐭𝐬 𝐬𝐡𝐨𝐮𝐥𝐝 𝐠𝐞𝐧𝐞𝐫𝐚𝐭𝐞.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐂#.𝐍𝐞𝐭, 𝐀𝐬𝐩.𝐧𝐞𝐭, 𝐀𝐬𝐩.𝐍𝐞𝐭 𝐌𝐯𝐜, 𝐌𝐒𝐒𝐐𝐋, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐁𝐨𝐨𝐭𝐬𝐭𝐫𝐚𝐩 𝟑.𝟎, 𝐇𝐓𝐌𝐋 𝟓, 𝐂𝐒𝐒 𝟑, 𝐀𝐉𝐀𝐗, 𝐰𝐞𝐛 𝐀𝐩𝐢.</li>
+                </ul>
+
+                <h3>𝐎𝐝𝐢𝐬𝐡𝐚 𝐕𝐢𝐠𝐢𝐥𝐚𝐧𝐜𝐞</h3>
+                <p><strong>𝐒𝐈𝐒𝐋 𝐈𝐧𝐟𝐨𝐭𝐞𝐜𝐡 𝐏𝐯𝐭. 𝐋𝐭𝐝.</strong></p>
+                <p>𝟎𝟒/𝟐𝟎𝟏𝟖 - 𝟖/𝟐𝟎𝟏𝟖, 𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                <ul>
+                    <li><strong>𝐏𝐫𝐨𝐣𝐞𝐜𝐭 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧:</strong> 𝐓𝐡𝐢𝐬 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧 𝐟𝐨𝐫 𝐦𝐚𝐧𝐚𝐠𝐢𝐧𝐠 𝐭𝐡𝐞 𝐜𝐫𝐢𝐦𝐞 𝐫𝐞𝐥𝐚𝐭𝐞𝐝 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐢𝐞𝐬 𝐢𝐧 𝐎𝐝𝐢𝐬𝐡𝐚. 𝐇𝐞𝐫𝐞 𝐭𝐡𝐞𝐫𝐞 𝐚𝐫𝐞 𝐭𝐰𝐨 𝐦𝐨𝐝𝐮𝐥𝐞𝐬 𝐢.𝐞., 𝐝𝐢𝐬𝐭𝐫𝐢𝐜𝐭 𝐜𝐫𝐢𝐦𝐞 𝐦𝐨𝐝𝐮𝐥𝐞 𝐚𝐧𝐝 𝐬𝐭𝐚𝐭𝐞 𝐜𝐫𝐢𝐦𝐞 𝐦𝐨𝐝𝐮𝐥𝐞. 𝐈𝐧 𝐝𝐢𝐬𝐭𝐫𝐢𝐜𝐭 𝐦𝐨𝐝𝐮𝐥𝐞 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐝𝐢𝐬𝐭𝐫𝐢𝐜𝐭 𝐡𝐚𝐬 𝐦𝐚𝐧𝐚𝐠𝐞𝐝 𝐭𝐡𝐞𝐢𝐫 𝐧𝐞𝐰 𝐅𝐈𝐑, 𝐂𝐚𝐬𝐞𝐬, 𝐅𝐢𝐥𝐞, 𝐂𝐡𝐚𝐫𝐠𝐞 𝐬𝐡𝐞𝐞𝐭𝐬 𝐚𝐧𝐝 𝐬𝐭𝐨𝐫𝐞𝐬 𝐢𝐭 𝐨𝐧 𝐭𝐡𝐞𝐢𝐫 𝐬𝐭𝐚𝐧𝐝𝐚𝐥𝐨𝐧𝐞 𝐚𝐩𝐩. 𝐀𝐟𝐭𝐞𝐫 𝐜𝐨𝐦𝐩𝐢𝐥𝐚𝐭𝐢𝐨𝐧 𝐨𝐟 𝐚𝐥𝐥 𝐜𝐚𝐬𝐞𝐬 𝐨𝐟 𝐚 𝐝𝐚𝐲 𝐭𝐡𝐞𝐲 𝐡𝐚𝐯𝐞 𝐬𝐚𝐯𝐞 𝐢𝐭 𝐢𝐧 𝐭𝐡𝐞 𝐒𝐭𝐚𝐭𝐞 𝐕𝐢𝐠𝐢𝐥𝐚𝐧𝐜𝐞 𝐰𝐞𝐛𝐬𝐢𝐭𝐞. 𝐖𝐡𝐞𝐫𝐞 𝐚𝐥𝐥 𝐭𝐡𝐞 𝐜𝐚𝐬𝐞, 𝐅𝐈𝐑, 𝐂𝐡𝐚𝐫𝐠𝐞𝐬𝐡𝐞𝐞𝐭 𝐫𝐞𝐥𝐚𝐭𝐞𝐝 𝐚𝐜𝐭𝐢𝐨𝐧𝐬 𝐬𝐡𝐨𝐮𝐥𝐝 𝐛𝐞 𝐭𝐚𝐤𝐞𝐧.</li>
+                    <li><strong>𝐑𝐨𝐥𝐞:</strong> .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫.</li>
+                    <li><strong>𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭:</strong> 𝐂#.𝐍𝐞𝐭, 𝐀𝐬𝐩.𝐧𝐞𝐭, 𝐌𝐒𝐒𝐐𝐋, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐁𝐨𝐨𝐭𝐬𝐭𝐫𝐚𝐩 𝟑.𝟎, 𝐇𝐓𝐌𝐋 𝟓, 𝐂𝐒𝐒 𝟑, 𝐀𝐉𝐀𝐗.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Section with Bar Chart Design -->
+    <div id="skillsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Skills Details</h2>
+                <span class="close" onclick="closeModal('skillsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Skill details will be dynamically filled here -->
+                <canvas id="skillsChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <!-- Modal for Education Details -->
+    <div id="educationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Education Details</h2>
+                <span class="close" onclick="closeModal('educationModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <!-- Education details with graphics will be dynamically filled here -->
+                <div id="educationDetails">
+                    <!-- Placeholder for education details -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Resume Download -->
+    <div id="resumeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Download Resume</h2>
+                <span class="close" onclick="closeModal('resumeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Click the button below to download Ashwin Kumar Panda's resume:</p>
+                <button class="download-button" onclick="downloadResume()">Download Resume</button>
+            </div>
+        </div>
+    </div>
+     <!-- About Me Modal -->
+     <div id="aboutMeModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About Me</h2>
+                <span class="close" onclick="closeModal('aboutMeModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p> 𝐀𝐧 𝐞𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞𝐝 𝐅𝐮𝐥𝐥 𝐒𝐭𝐚𝐜𝐤 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫 𝐰𝐢𝐭𝐡 𝐚𝐫𝐨𝐮𝐧𝐝 𝟖.𝟒 𝐲𝐞𝐚𝐫𝐬 𝐨𝐟 𝐞𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞 𝐢𝐧 𝐚 𝐰𝐢𝐝𝐞 𝐫𝐚𝐧𝐠𝐞 𝐨𝐟 .𝐍𝐄𝐓 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐦𝐞𝐧𝐭 𝐚𝐬𝐩𝐞𝐜𝐭𝐬 𝐟𝐨𝐫 𝐛𝐮𝐬𝐢𝐧𝐞𝐬𝐬 𝐚𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧𝐬. 𝐇𝐢𝐠𝐡𝐥𝐲 𝐚𝐝𝐞𝐩𝐭 𝐢𝐧 𝐚𝐥𝐥 𝐝𝐞𝐯𝐞𝐥𝐨𝐩𝐦𝐞𝐧𝐭 𝐬𝐭𝐚𝐠𝐞𝐬, 𝐟𝐫𝐨𝐦 𝐢𝐧𝐢𝐭𝐢𝐚𝐥 𝐚𝐧𝐚𝐥𝐲𝐬𝐢𝐬 𝐭𝐡𝐫𝐨𝐮𝐠𝐡 𝐝𝐞𝐬𝐢𝐠𝐧, 𝐩𝐫𝐨𝐭𝐨𝐭𝐲𝐩𝐢𝐧𝐠, 𝐢𝐦𝐩𝐥𝐞𝐦𝐞𝐧𝐭𝐚𝐭𝐢𝐨𝐧, 𝐚𝐧𝐝 𝐞𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧. 𝐄𝐱𝐭𝐞𝐧𝐬𝐢𝐯𝐞 𝐜𝐨𝐝𝐢𝐧𝐠 𝐞𝐱𝐩𝐞𝐫𝐢𝐞𝐧𝐜𝐞 𝐮𝐬𝐢𝐧𝐠 𝐂#, 𝐀𝐒𝐏. 𝐍𝐞𝐭, 𝐀𝐒𝐏. 𝐍𝐞𝐭 𝐌𝐯𝐜, 𝐀𝐬𝐩.𝐧𝐞𝐭 𝐂𝐨𝐫𝐞, 𝐀𝐃𝐎. 𝐍𝐞𝐭, 𝐑𝐞𝐚𝐜𝐭.𝐣𝐬, 𝐈𝐈𝐒, 𝐇𝐓𝐌𝐋 𝟓, 𝐣𝐐𝐮𝐞𝐫𝐲, 𝐉𝐒𝐎𝐍, 𝐑𝐚𝐳𝐨𝐫, 𝐁𝐨𝐨𝐭𝐬𝐭𝐫𝐚𝐩, 𝐕𝐢𝐬𝐮𝐚𝐥 𝐒𝐭𝐮𝐝𝐢𝐨 𝟐𝟎𝟐𝟐, 𝐓𝐅𝐒, 𝐈𝐧𝐟𝐫𝐚𝐠𝐢𝐬𝐭𝐢𝐜𝐬, 𝐆𝐢𝐭𝐇𝐮𝐛, 𝐀𝐠𝐢𝐥𝐞 𝐌𝐞𝐭𝐡𝐨𝐝𝐨𝐥𝐨𝐠𝐲.</p>
+            </div>
+        </div>
+    </div>
+    <!-- Contact Details Modal -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Contact Details</h2>
+                <span class="close" onclick="closeModal('contactModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <p>𝐚𝐬𝐡𝐰𝐢𝐧𝐩𝐚𝐧𝐝𝐚𝟐𝟏@𝐠𝐦𝐚𝐢𝐥.𝐜𝐨𝐦</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <p>𝟖𝟑𝟐𝟕𝟕𝟕𝟗𝟕𝟐𝟑, 𝟗𝟒𝟑𝟖𝟏𝟎𝟒𝟓𝟒𝟔</p>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-linkedin"></i>
+                    <p><a href="https://www.linkedin.com/in/ashwin-06a43a69" target="_blank">𝐰𝐰𝐰.𝐥𝐢𝐧𝐤𝐞𝐝𝐢𝐧.𝐜𝐨𝐦/𝐢𝐧/𝐚𝐬𝐡𝐰𝐢𝐧-𝟎𝟔𝐚𝟒𝟑𝐚𝟔𝟗</a></p>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <p>𝐁𝐡𝐮𝐛𝐚𝐧𝐞𝐬𝐰𝐚𝐫, 𝐈𝐧𝐝𝐢𝐚</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Function to populate education details
+        function populateEducationDetails() {
+            const educationData = [
+                {
+                    institution: '𝐈𝐧𝐬𝐭𝐢𝐭𝐮𝐭𝐞 𝐨𝐟 𝐌𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐚𝐧𝐝 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐲',
+                    degree: '𝐌𝐚𝐬𝐭𝐞𝐫 𝐢𝐧 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐲 (𝐂𝐨𝐦𝐩. 𝐒𝐜 & 𝐄𝐧𝐠𝐠.)',
+                    duration: '𝟎𝟖/𝟐𝟎𝟏𝟗 - 𝟎𝟓/𝟐𝟎𝟐𝟏',
+                    location: '𝐂𝐮𝐭𝐭𝐚𝐜𝐤, 𝐈𝐧𝐝𝐢𝐚'
+                },
+                {
+                    institution: '𝐈𝐧𝐬𝐭𝐢𝐭𝐮𝐭𝐞 𝐨𝐟 𝐌𝐚𝐧𝐚𝐠𝐞𝐦𝐞𝐧𝐭 𝐚𝐧𝐝 𝐈𝐧𝐟𝐨𝐫𝐦𝐚𝐭𝐢𝐨𝐧 𝐓𝐞𝐜𝐡𝐧𝐨𝐥𝐨𝐠𝐲',
+                    degree: '𝐌𝐚𝐬𝐭𝐞𝐫 𝐢𝐧 𝐂𝐨𝐦𝐩𝐮𝐭𝐞𝐫 𝐀𝐩𝐩𝐥𝐢𝐜𝐚𝐭𝐢𝐨𝐧',
+                    duration: '𝟎𝟖/𝟐𝟎𝟏𝟎 - 𝟎𝟓/𝟐𝟎𝟏𝟑',
+                    location: '𝐂𝐮𝐭𝐭𝐚𝐜𝐤, 𝐈𝐧𝐝𝐢𝐚'
+                },
+                {
+                    institution: '𝐊𝐚𝐦𝐚𝐤𝐡𝐲𝐚 𝐍𝐚𝐠𝐚𝐫 𝐂𝐨𝐥𝐥𝐞𝐠𝐞',
+                    degree: '𝐁.𝐒𝐜. 𝐌𝐚𝐭𝐡𝐞𝐦𝐚𝐭𝐢𝐜𝐬 𝐇𝐨𝐧𝐨𝐫𝐬',
+                    duration: '𝟎𝟔/𝟐𝟎𝟎𝟓 - 𝟎𝟓/𝟐𝟎𝟎𝟗',
+                    location: '𝐃𝐡𝐞𝐧𝐤𝐚𝐧𝐚𝐥, 𝐈𝐧𝐝𝐢𝐚'
+                },
+                {
+                    institution: '𝐉𝐢𝐫𝐚𝐥 𝐂𝐨𝐥𝐥𝐞𝐠𝐞',
+                    degree: '𝐇𝐢𝐠𝐡𝐞𝐫 𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 𝐂𝐞𝐫𝐭𝐢𝐟𝐢𝐜𝐚𝐭𝐞',
+                    duration: '𝟎𝟔/𝟐𝟎𝟎𝟑 - 𝟎𝟓/𝟐𝟎𝟎𝟓',
+                    location: '𝐃𝐡𝐞𝐧𝐤𝐚𝐧𝐚𝐥, 𝐈𝐧𝐝𝐢𝐚'
+                },
+                {
+                    institution: '𝐉𝐢𝐫𝐚𝐥 𝐇𝐢𝐠𝐡 𝐒𝐜𝐡𝐨𝐨𝐥',
+                    degree: '𝐒𝐞𝐜𝐨𝐧𝐝𝐚𝐫𝐲 𝐒𝐜𝐡𝐨𝐨𝐥 𝐂𝐞𝐫𝐭𝐢𝐟𝐢𝐜𝐚𝐭𝐞',
+                    duration: '𝟎𝟒/𝟐𝟎𝟎𝟐 - 𝟎𝟓/𝟐𝟎𝟎𝟑',
+                    location: '𝐃𝐡𝐞𝐧𝐤𝐚𝐧𝐚𝐥, 𝐈𝐧𝐝𝐢𝐚'
+                }
+            ];
+
+            const educationDetails = document.getElementById('educationDetails');
+            educationDetails.innerHTML = ''; // Clear previous content
+
+            // Loop through each education record and create HTML content
+            educationData.forEach(edu => {
+                const eduDiv = document.createElement('div');
+                eduDiv.classList.add('education-item');
+                eduDiv.innerHTML = `
+                    <h3>${edu.degree}</h3>
+                    <p>${edu.institution}</p>
+                    <p>${edu.duration} - ${edu.location}</p>
+                `;
+                educationDetails.appendChild(eduDiv);
+            });
+        }
+        // Function to download resume (replace with actual download link)
+        function downloadResume() {
+            // Replace with your resume URL
+            const resumeUrl = 'https://example.com/path-to-your-resume.pdf';
+            window.open(resumeUrl, '_blank');
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script>
+        // Function to open the modal
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+            // Call function to populate skills chart
+            if(modalId=="skillsModal")
+            {
+                populateSkillsChart();
+            }
+            else if (modalId=="educationModal")
+            {
+                populateEducationDetails();
+            }
+        }
+
+        // Function to close the modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        // Function to populate skills chart
+        function populateSkillsChart() {
+            const ctx = document.getElementById('skillsChart').getContext('2d');
+            const skillsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['React.js', 'ASP.NET Core 5/6', 'ASP.NET Ajax', 'SQL Server', 'jQuery', 'JavaScript', 'Asp.Net(Web Form)', 'ADV.NET(MVC)MVC 5'],
+                    datasets: [{
+                        label: 'Years of Experience',
+                        data: [0.7, 5.5, 6, 8.10, 6, 5, 6, 6.5],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to handle clicks outside the modal content area
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
