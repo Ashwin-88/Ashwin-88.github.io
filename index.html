@@ -201,6 +201,13 @@
         .contact-item p {
             margin: 0;
         }
+        .certificate-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -228,6 +235,12 @@
             <i class="fas fa-graduation-cap"></i>
             <h2>Education</h2>
             <p>Information about my educational background.</p>
+        </div>
+        <!-- Certification Tile -->
+        <div class="tile" onclick="openModal('certificationModal')">
+            <i class="fas fa-certificate"></i>
+            <h2>Certifications</h2>
+            <p>Click to view details</p>
         </div>
         <div class="tile" onclick="openModal('resumeModal')">
             <i class="fas fa-file-alt"></i>
@@ -403,7 +416,40 @@
             </div>
         </div>
     </div>
+    <div id="certificationModal" class="modal">
+    <!-- Certification Modal -->
+    <div id="certificationModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Certifications</h2>
+                <span class="close" onclick="closeModal('certificationModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div>
+                <img src="certificate.jpg" alt="Pat On the Back" class="certificate-image">
+                <p><strong>Award Name:</strong>Pat On the Back</p>
+                <p><strong>Issued By:</strong> Tech Mahindra Ltd.</p>
+                <p><strong>Date:</strong> January 2024</p>
+                <p><strong>Description:</strong> This Award received based on the performance and feedback given by the Client for Brokorage Accounting.</p>
+            </div>
+            <div>
 
+                <img src="certificate.jpg" alt="SQL Server Basic" class="certificate-image">
+                <p><strong>Award Name:</strong>SQL Server Basic</p>
+                <p><strong>Issued By:</strong> Hacker Rank</p>
+                <p><strong>Date:</strong> January 2024</p>
+                <p><strong>Description:</strong> Not Available</p>
+            </div>
+            <div>
+                <img src="certificate.jpg" alt="SQL Server Intermediate" class="certificate-image">
+                <p><strong>Award Name:</strong>SQL Server Intermediate</p>
+                <p><strong>Issued By:</strong> Hacker Rank</p>
+                <p><strong>Date:</strong> January 2024</p>
+                <p><strong>Description:</strong> Not Available</p>
+            </div>
+        </div>
+    </div>
+</div>
     <!-- Modal for Resume Download -->
     <div id="resumeModal" class="modal">
         <div class="modal-content">
