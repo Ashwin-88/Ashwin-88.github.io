@@ -6,6 +6,7 @@
     <title>Ashwin Kumar Panda - Professional Portfolio</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -575,13 +576,38 @@
             {
                 populateEducationDetails();
             }
+             else if (modalId === 'certificationModal') {
+                launchConfetti();
+            }
         }
 
         // Function to close the modal
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = "none";
         }
+        // Function to launch confetti
+        function launchConfetti() {
+            var duration = 2 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                // since particles fall down, start a bit higher than random
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
         // Function to populate skills chart
         function populateSkillsChart() {
             const ctx = document.getElementById('skillsChart').getContext('2d');
