@@ -1,0 +1,37 @@
+trigger:
+- main
+
+variables:
+  github_repo: 'Ashwin-88/Ashwin-88.github.io'   # Change this to your GitHub repo
+  github_branch: 'main'
+
+stages:
+- stage: PushToGitHub
+  jobs:
+  - job: GitPush
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+
+    - checkout: self
+
+    - script: |
+        git config --global user.email "ci-bot@yourdomain.com"
+        git config --global user.name "Azure DevOps Bot"
+
+        git clone https://$(github_token)@github.com/$(github_repo)
+        
+        # Copy files from Azure DevOps repo to GitHub repo
+        cp -r ../* .
+
+        # Optional: prevent pushing .git folder if already inside a Git repo
+        rm -rf .git
+
+        git init
+        git remote add origin https://$(github_token)@github.com/$(github_repo)
+        git checkout -b $(github_branch)
+
+        git add .
+        git commit -m "Pushed from Azure DevOps CI"
+        git push origin $(github_branch) --force
+      displayName: 'Push code to GitHub'
