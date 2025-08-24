@@ -2,7 +2,7 @@ trigger:
 - main
 
 variables:
-  github_repo: 'Ashwin-88/Ashwin-88.github.io'   # Change this to your GitHub repo
+  github_repo: 'Ashwin-88/Ashwin-88.github.io'
   github_branch: 'main'
 
 stages:
@@ -19,19 +19,17 @@ stages:
         git config --global user.email "ci-bot@yourdomain.com"
         git config --global user.name "Azure DevOps Bot"
 
-        git clone https://$(github_token)@github.com/$(github_repo)
-        
-        # Copy files from Azure DevOps repo to GitHub repo
-        cp -r ../* .
+        # Add GitHub repo as remote
+        git remote add github https://$(github_token)@github.com/$(github_repo).git
 
-        # Optional: prevent pushing .git folder if already inside a Git repo
-        rm -rf .git
+        # Switch branch (create if missing)
+        git fetch github
+        git checkout $(github_branch) || git checkout -b $(github_branch)
 
-        git init
-        git remote add origin https://$(github_token)@github.com/$(github_repo)
-        git checkout -b $(github_branch)
-
+        # Add and commit changes
         git add .
-        git commit -m "Pushed from Azure DevOps CI"
-        git push origin $(github_branch) --force
-      displayName: 'Push code to GitHub'
+        git commit -m "Publish site from Azure DevOps CI" || echo "No changes to commit"
+
+        # Push to GitHub Pages repo
+        git push github $(github_branch) --force
+      displayName: 'Publish to GitHub Pages'
