@@ -20,7 +20,7 @@ stages:
         git config --global user.name "Azure DevOps Bot"
 
         # Add GitHub repo as remote
-        git remote add github https://$(github_token)@github.com/$(github_repo).git
+        git remote add github https://$(github_token)@github.com/$(github_repo)
 
         # Switch branch (create if missing)
         git fetch github
